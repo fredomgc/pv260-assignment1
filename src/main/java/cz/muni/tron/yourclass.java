@@ -15,8 +15,8 @@ import java.util.ArrayList;
 public class yourclass extends Core implements KeyListener, MouseListener,
         MouseMotionListener {
 
-    private Player player1 = new Player(40, 40, 1, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT);
-    private Player player2 = new Player(600, 440, 3, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D);
+    private Player player1 = new Player(new Position(40, 40), 1, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT);
+    private Player player2 = new Player(new Position(600, 440), 3, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D);
     
     int moveAmount = 5;
 
@@ -37,21 +37,23 @@ public class yourclass extends Core implements KeyListener, MouseListener,
         player1.move(moveAmount, sm.getWidth(), sm.getHeight());
         player2.move(moveAmount, sm.getWidth(), sm.getHeight());
         
-        for (int x = 0; x < player1.pathx1.size() - 1; x++) {
-            if (((player1.centrex1 == player1.pathx1.get(x)) && (player1.centrey1 == player1.pathy1.get(x))) ||
-                ((player2.centrex1 == player2.pathx1.get(x)) && (player2.centrey1 == player2.pathy1.get(x))) ||
-                ((player1.centrex1 == player2.pathx1.get(x)) && (player1.centrey1 == player2.pathy1.get(x))) ||
-                ((player2.centrex1 == player1.pathx1.get(x)) && (player2.centrey1 == player1.pathy1.get(x)))) {
+        for (int x = 0; x < player1.getPath().size() - 1; x++) {
+            if (((player1.getPosition().getColumn() == player1.getPath().get(x).getColumn()) && (player1.getPosition().getRow() == player1.getPath().get(x).getRow())) ||
+                ((player2.getPosition().getColumn() == player2.getPath().get(x).getColumn()) && (player2.getPosition().getRow() == player2.getPath().get(x).getRow())) ||
+                ((player1.getPosition().getColumn() == player2.getPath().get(x).getColumn()) && (player1.getPosition().getRow() == player2.getPath().get(x).getRow())) ||
+                ((player2.getPosition().getColumn() == player1.getPath().get(x).getColumn()) && (player2.getPosition().getRow() == player1.getPath().get(x).getRow()))) {
                 System.exit(0);
             }
         }
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, sm.getWidth(), sm.getHeight());
-        for (int x = 0; x < player1.pathx1.size(); x++) {
+        for (int x = 0; x < player1.getPath().size(); x++) {
+            Position player1Position = player1.getPath().get(x);
+            Position player2Position = player2.getPath().get(x);
             g.setColor(Color.green);
-            g.fillRect(player1.pathx1.get(x), player1.pathy1.get(x), 10, 10);
+            g.fillRect(player1Position.getColumn(), player1Position.getRow(), 10, 10);
             g.setColor(Color.red);
-            g.fillRect(player2.pathx1.get(x), player2.pathy1.get(x), 10, 10);
+            g.fillRect(player2Position.getColumn(), player2Position.getRow(), 10, 10);
         }
     }
 

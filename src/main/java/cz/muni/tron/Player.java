@@ -7,6 +7,7 @@ package cz.muni.tron;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -14,62 +15,68 @@ import java.util.ArrayList;
  */
 public class Player {
 
-    int centrex1;
-    int centrey1;
-    int currentDirection1;
-    int keyUp;
-    int keyDown;
-    int keyLeft;
-    int keyRight;
+    private int currentDirection1;
+    private int keyUp;
+    private int keyDown;
+    private int keyLeft;
+    private int keyRight;
 
-    ArrayList<Integer> pathx1 = new ArrayList();
-    ArrayList<Integer> pathy1 = new ArrayList();
+    private final List<Position> path = new ArrayList();
     
-    public Player(int centrex1, int centrey1, int currentDirection1, int keyUp, int keyDown, int keyLeft, int keyRight) {
-        this.centrex1 = centrex1;
-        this.centrey1 = centrey1;
+    public Player(Position position, int currentDirection1, int keyUp, int keyDown, int keyLeft, int keyRight) {
         this.currentDirection1 = currentDirection1;
         this.keyUp = keyUp;
         this.keyDown = keyDown;
         this.keyLeft = keyLeft;
         this.keyRight = keyRight;
+        this.path.add(position);
     }
 
+    public Position getPosition() {
+        return path.get(path.size() - 1);
+    }
     
+    public List<Position> getPath() {
+        return path;
+    }
     
     public void move(int moveAmount, int width, int height) {
+        Position newPosition;
+        int currentRow = getPosition().getRow();
+        int currentColumn = getPosition().getColumn();
         switch (currentDirection1) {
             case 0:
-                if (centrey1 > 0) {
-                    centrey1 -= moveAmount;
+                if (currentRow > 0) {
+                    newPosition = new Position(currentRow - moveAmount, currentColumn);
                 } else {
-                    centrey1 = height;
+                    newPosition = new Position(height, currentColumn);
                 }
                 break;
             case 1:
-                if (centrex1 < width) {
-                    centrex1 += moveAmount;
+                if (currentColumn < width) {
+                    newPosition = new Position(currentRow, currentColumn + moveAmount);
                 } else {
-                    centrex1 = 0;
+                    newPosition = new Position(currentRow, 0);
                 }
                 break;
             case 2:
-                if (centrey1 < height) {
-                    centrey1 += moveAmount;
+                if (currentRow < height) {
+                    newPosition = new Position(currentRow + moveAmount, currentColumn);
                 } else {
-                    centrey1 = 0;
+                    newPosition = new Position(0, currentColumn);
                 }
                 break;
             case 3:
-                if (centrex1 > 0) {
-                    centrex1 -= moveAmount;
+                if (currentColumn > 0) {
+                    newPosition = new Position(currentRow, currentColumn - moveAmount);
                 } else {
-                    centrex1 = width;
+                    newPosition = new Position(currentRow, width);
                 }
                 break;
+            default:
+                newPosition = new Position(currentRow, currentColumn);
         }
-        pathx1.add(centrex1);
-        pathy1.add(centrey1);
+        path.add(newPosition);
     }
     
     public void changeDirection(KeyEvent e) {
