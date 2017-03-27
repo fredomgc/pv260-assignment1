@@ -15,8 +15,8 @@ import java.util.ArrayList;
 public class yourclass extends Core implements KeyListener, MouseListener,
         MouseMotionListener {
 
-    private Player player1 = new Player(new Position(40, 40), 1, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT);
-    private Player player2 = new Player(new Position(600, 440), 3, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D);
+    private Player player1 = new Player(new Position(40, 40), Direction.RIGHT, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT);
+    private Player player2 = new Player(new Position(600, 440), Direction.LEFT, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D);
     
     int moveAmount = 5;
 

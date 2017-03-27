@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class Player {
 
-    private int currentDirection1;
+    private Direction currentDirection;
     private int keyUp;
     private int keyDown;
     private int keyLeft;
@@ -23,8 +23,8 @@ public class Player {
 
     private final List<Position> path = new ArrayList();
     
-    public Player(Position position, int currentDirection1, int keyUp, int keyDown, int keyLeft, int keyRight) {
-        this.currentDirection1 = currentDirection1;
+    public Player(Position position, Direction currentDirection, int keyUp, int keyDown, int keyLeft, int keyRight) {
+        this.currentDirection = currentDirection;
         this.keyUp = keyUp;
         this.keyDown = keyDown;
         this.keyLeft = keyLeft;
@@ -44,29 +44,29 @@ public class Player {
         Position newPosition;
         int currentRow = getPosition().getRow();
         int currentColumn = getPosition().getColumn();
-        switch (currentDirection1) {
-            case 0:
+        switch (currentDirection) {
+            case UP:
                 if (currentRow > 0) {
                     newPosition = new Position(currentRow - moveAmount, currentColumn);
                 } else {
                     newPosition = new Position(height, currentColumn);
                 }
                 break;
-            case 1:
+            case RIGHT:
                 if (currentColumn < width) {
                     newPosition = new Position(currentRow, currentColumn + moveAmount);
                 } else {
                     newPosition = new Position(currentRow, 0);
                 }
                 break;
-            case 2:
+            case DOWN:
                 if (currentRow < height) {
                     newPosition = new Position(currentRow + moveAmount, currentColumn);
                 } else {
                     newPosition = new Position(0, currentColumn);
                 }
                 break;
-            case 3:
+            case LEFT:
                 if (currentColumn > 0) {
                     newPosition = new Position(currentRow, currentColumn - moveAmount);
                 } else {
@@ -81,20 +81,20 @@ public class Player {
     
     public void changeDirection(KeyEvent e) {
         if (e.getKeyCode() == keyUp) {
-            if (currentDirection1 != 2) {
-                currentDirection1 = 0;
+            if (!currentDirection.isOpositeTo(Direction.UP)) {
+                currentDirection = Direction.UP;
             }
         } else if (e.getKeyCode() == keyDown) {
-            if (currentDirection1 != 0) {
-                currentDirection1 = 2;
+            if (!currentDirection.isOpositeTo(Direction.DOWN)) {
+                currentDirection = Direction.DOWN;
             }
         } else if (e.getKeyCode() == keyRight) {
-            if (currentDirection1 != 3) {
-                currentDirection1 = 1;
+            if (!currentDirection.isOpositeTo(Direction.RIGHT)) {
+                currentDirection = Direction.RIGHT;
             }
         } else if (e.getKeyCode() == keyLeft) {
-            if (currentDirection1 != 1) {
-                currentDirection1 = 3;
+            if (!currentDirection.isOpositeTo(Direction.LEFT)) {
+                currentDirection = Direction.LEFT;
             }
         }
     }
