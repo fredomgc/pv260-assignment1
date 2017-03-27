@@ -15,8 +15,9 @@ import java.util.ArrayList;
 public class yourclass extends Core implements KeyListener, MouseListener,
         MouseMotionListener {
 
-    private Player player1 = new Player(new Position(40, 40), Direction.RIGHT, Color.GREEN, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT);
-    private Player player2 = new Player(new Position(600, 440), Direction.LEFT, Color.RED, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D);
+    private Player player1 = new Player(new Position(40 / 5, 40 / 5), Direction.RIGHT, Color.GREEN, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT);
+    private Player player2 = new Player(new Position(600 / 5, 440 / 5), Direction.LEFT, Color.RED, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D);
+    private Grid gameGrid;
     
     int moveAmount = 5;
 
@@ -27,6 +28,8 @@ public class yourclass extends Core implements KeyListener, MouseListener,
         w.addKeyListener(this);
         w.addMouseListener(this);
         w.addMouseMotionListener(this);
+        
+        gameGrid = new SingleStepRotaryGrid(sm.getHeight() / moveAmount, sm.getWidth() / moveAmount);
     }
 
     public static void main(String[] args) {
@@ -34,8 +37,8 @@ public class yourclass extends Core implements KeyListener, MouseListener,
     }
 
     public void draw(Graphics2D g) {
-        player1.move(moveAmount, sm.getWidth(), sm.getHeight());
-        player2.move(moveAmount, sm.getWidth(), sm.getHeight());
+        player1.move(gameGrid);
+        player2.move(gameGrid);
         
         for (int x = 0; x < player1.getPath().size() - 1; x++) {
             if (((player1.getPosition().getColumn() == player1.getPath().get(x).getColumn()) && (player1.getPosition().getRow() == player1.getPath().get(x).getRow())) ||
@@ -51,15 +54,19 @@ public class yourclass extends Core implements KeyListener, MouseListener,
             Position player1Position = player1.getPath().get(x);
             Position player2Position = player2.getPath().get(x);
             g.setColor(player1.getColor());
-            g.fillRect(player1Position.getColumn(), player1Position.getRow(), 10, 10);
+            g.fillRect(player1Position.getColumn() * moveAmount, player1Position.getRow() * moveAmount, 10, 10);
             g.setColor(player2.getColor());
-            g.fillRect(player2Position.getColumn(), player2Position.getRow(), 10, 10);
+            g.fillRect(player2Position.getColumn() * moveAmount, player2Position.getRow() * moveAmount, 10, 10);
         }
     }
 
     public void keyPressed(KeyEvent e) {
         player1.changeDirection(e);
         player2.changeDirection(e);
+        
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            System.exit(0);
+        }
     }
 
     public void keyReleased(KeyEvent e) {

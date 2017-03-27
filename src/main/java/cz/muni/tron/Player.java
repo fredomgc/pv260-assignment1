@@ -47,43 +47,10 @@ public class Player {
         return path;
     }
     
-    public void move(int moveAmount, int width, int height) {
-        Position newPosition;
-        int currentRow = getPosition().getRow();
-        int currentColumn = getPosition().getColumn();
-        switch (currentDirection) {
-            case UP:
-                if (currentRow > 0) {
-                    newPosition = new Position(currentRow - moveAmount, currentColumn);
-                } else {
-                    newPosition = new Position(height, currentColumn);
-                }
-                break;
-            case RIGHT:
-                if (currentColumn < width) {
-                    newPosition = new Position(currentRow, currentColumn + moveAmount);
-                } else {
-                    newPosition = new Position(currentRow, 0);
-                }
-                break;
-            case DOWN:
-                if (currentRow < height) {
-                    newPosition = new Position(currentRow + moveAmount, currentColumn);
-                } else {
-                    newPosition = new Position(0, currentColumn);
-                }
-                break;
-            case LEFT:
-                if (currentColumn > 0) {
-                    newPosition = new Position(currentRow, currentColumn - moveAmount);
-                } else {
-                    newPosition = new Position(currentRow, width);
-                }
-                break;
-            default:
-                newPosition = new Position(currentRow, currentColumn);
-        }
-        path.add(newPosition);
+    public void move(Grid inGrid) {
+        path.add(
+                inGrid.move(getPosition(), currentDirection)
+        );
     }
     
     public void changeDirection(KeyEvent e) {
