@@ -15,8 +15,8 @@ import java.util.ArrayList;
 public class yourclass extends Core implements KeyListener, MouseListener,
         MouseMotionListener {
 
-    private Player player1 = new Player(new Position(40, 40), Direction.RIGHT, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT);
-    private Player player2 = new Player(new Position(600, 440), Direction.LEFT, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D);
+    private Player player1 = new Player(new Position(40, 40), Direction.RIGHT, Color.GREEN, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT);
+    private Player player2 = new Player(new Position(600, 440), Direction.LEFT, Color.RED, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D);
     
     int moveAmount = 5;
 
@@ -50,9 +50,9 @@ public class yourclass extends Core implements KeyListener, MouseListener,
         for (int x = 0; x < player1.getPath().size(); x++) {
             Position player1Position = player1.getPath().get(x);
             Position player2Position = player2.getPath().get(x);
-            g.setColor(Color.green);
+            g.setColor(player1.getColor());
             g.fillRect(player1Position.getColumn(), player1Position.getRow(), 10, 10);
-            g.setColor(Color.red);
+            g.setColor(player2.getColor());
             g.fillRect(player2Position.getColumn(), player2Position.getRow(), 10, 10);
         }
     }

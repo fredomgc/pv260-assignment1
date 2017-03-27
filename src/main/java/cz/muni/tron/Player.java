@@ -5,6 +5,7 @@
  */
 package cz.muni.tron;
 
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
 public class Player {
 
     private Direction currentDirection;
+    private final Color color;
     private int keyUp;
     private int keyDown;
     private int keyLeft;
@@ -23,8 +25,9 @@ public class Player {
 
     private final List<Position> path = new ArrayList();
     
-    public Player(Position position, Direction currentDirection, int keyUp, int keyDown, int keyLeft, int keyRight) {
+    public Player(Position position, Direction currentDirection, Color color, int keyUp, int keyDown, int keyLeft, int keyRight) {
         this.currentDirection = currentDirection;
+        this.color = color;
         this.keyUp = keyUp;
         this.keyDown = keyDown;
         this.keyLeft = keyLeft;
@@ -34,6 +37,10 @@ public class Player {
 
     public Position getPosition() {
         return path.get(path.size() - 1);
+    }
+    
+    public Color getColor() {
+        return color;
     }
     
     public List<Position> getPath() {
