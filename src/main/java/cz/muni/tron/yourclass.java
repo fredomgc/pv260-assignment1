@@ -78,7 +78,7 @@ public class yourclass extends Core implements KeyListener, MouseListener,
     }
 
     public void mouseClicked(MouseEvent e) {
-
+		player1.changeDirection(e);
     }
 
     public void mouseEntered(MouseEvent arg0) {
