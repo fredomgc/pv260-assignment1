@@ -74,6 +74,12 @@ public class Player {
             }
         }
     }
+    
+    @Override
+    public String toString() {
+        return color.toString();
+    }
+    
 
     private Direction doChangeDirection(MouseEvent e, Direction current) {
         if (SwingUtilities.isLeftMouseButton(e) || SwingUtilities.isRightMouseButton(e)) {

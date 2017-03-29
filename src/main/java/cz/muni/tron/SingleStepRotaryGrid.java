@@ -5,12 +5,27 @@ public class SingleStepRotaryGrid implements Grid {
 
     private final Axis rowAxis;
     private final Axis columnAxis;
+    private final int rows;
+    private final int columns;
 
     public SingleStepRotaryGrid(int rows, int columns) {
+        this.rows = rows;
+        this.columns = columns;
         this.rowAxis = new Axis(rows);
         this.columnAxis = new Axis(columns);
     }
 
+    @Override
+    public int getWidth() {
+        return columns;
+    }
+
+    @Override
+    public int getHeight() {
+        return rows;
+    }
+    
+    @Override
     public Position move(Position position, Direction direction) {
         switch (direction) {
             case UP:

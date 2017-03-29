@@ -1,8 +1,12 @@
 package cz.muni.tron.engine;
 
-class InvalidPositionException extends IllegalArgumentException {
+public class InvalidPositionException extends IllegalArgumentException {
 
     public InvalidPositionException() {
+    }
+
+    public InvalidPositionException(String s) {
+        super(s);
     }
 
 }

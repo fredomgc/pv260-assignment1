@@ -1,5 +1,6 @@
 package cz.muni.tron.engine;
 
+import cz.muni.tron.Position;
 import java.awt.Color;
 
 /**
@@ -18,11 +19,10 @@ public interface GameFrame {
     public int getHeight();
 
     /**
-     * @param row Row index
-     * @param column Column index
+     * @param position Position index
      * @return Color at desired point
      * @throws InvalidPositionException Throw exception in case of row and
      * column index pointing out of this frame
      */
-    public Color getPoint(int row, int column) throws InvalidPositionException;
+    public Color getPoint(Position position) throws InvalidPositionException;
 }
