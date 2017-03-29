@@ -1,6 +1,7 @@
 package cz.muni.tron.engine;
 
 import cz.muni.tron.FixedRatioGameRenderer;
+import cz.muni.tron.Position;
 import cz.muni.tron.ScreenManager;
 import cz.muni.tron.ScreenOutput;
 import cz.muni.tron.SecondScreenManager;
@@ -33,7 +34,7 @@ public class GameEngineTest {
             }
 
             @Override
-            public Color getPoint(int row, int column) throws InvalidPositionException {
+            public Color getPoint(Position position) throws InvalidPositionException {
                 return  Math.random() >  0.5 ? Color.RED : Color.BLUE;
             }
         };
