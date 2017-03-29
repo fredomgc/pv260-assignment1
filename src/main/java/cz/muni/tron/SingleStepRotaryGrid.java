@@ -48,8 +48,8 @@ public class SingleStepRotaryGrid implements Grid {
 
         private final int positionLimit;
 
-        public Axis(int maxValue) {
-            this.positionLimit = maxValue + 1;
+        public Axis(int positionLimit) {
+            this.positionLimit = positionLimit;
         }
 
         public int wrapAround(int position) {
