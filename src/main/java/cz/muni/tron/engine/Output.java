@@ -7,20 +7,30 @@ import java.awt.Color;
  * screen)
  */
 public interface Output {
-    
-    
+
     //nejake pripraveny obrazovky?
     //public void initialize();
     
     /**
      * Fills the specified rectangle.
+     *
      * @param color color used to fill the rectangle
      * @param x
      * @param y
      * @param width
-     * @param height 
+     * @param height
      */
     public void drawRectangle(Color color, int x, int y, int width, int height);
-    
-    
+
+    /**
+     * @return Available width to draw into
+     */
+    public int getWidth();
+
+    /**
+     *
+     * @return Available height to draw into
+     */
+    public int getHeight();
+
 }

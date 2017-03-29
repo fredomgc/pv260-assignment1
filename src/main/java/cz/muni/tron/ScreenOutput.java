@@ -24,4 +24,14 @@ public class ScreenOutput implements Output{
     
     //je to potreba??
     //        this.graphics.dispose();
+
+    @Override
+    public int getWidth() {
+        return 1920; // TODO
+    }
+
+    @Override
+    public int getHeight() {
+        return 1080; // TODO
+    }
 }
