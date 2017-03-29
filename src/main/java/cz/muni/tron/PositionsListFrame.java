@@ -31,7 +31,7 @@ public class PositionsListFrame implements GameFrame {
     @Override
     public Color getPoint(Position position) throws InvalidPositionException {
         checkPositionIsValid(position);
-        return frame[position.getColumn()][position.getRow()];
+        return frame[position.getRow()][position.getColumn()];
     }
 
     public void addList(List<Position> positions, Color color) throws InvalidPositionException {
@@ -42,7 +42,7 @@ public class PositionsListFrame implements GameFrame {
 
     public void addPosition(Position position, Color color) throws InvalidPositionException {
         checkPositionIsValid(position);
-        frame[position.getColumn()][position.getRow()] = color;
+        frame[position.getRow()][position.getColumn()] = color;
     }
 
     private void checkPositionIsValid(Position position) throws InvalidPositionException {
