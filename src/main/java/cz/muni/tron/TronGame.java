@@ -37,6 +37,7 @@ public class TronGame implements Game {
         PositionsListFrame frame = new PositionsListFrame(grid.getWidth(), grid.getHeight());
         for (Player player : players) {
             frame.addList(player.getPath(), player.getColor());
+            frame.addPosition(player.getPosition(), player.getColor().darker());
         }
         return frame;
     }
@@ -87,19 +88,16 @@ public class TronGame implements Game {
         }
         
         private Collision detectPlayersCollision(Player potentialCollider, Player potentialCollidee) {
-            if (!areSamePlayers(potentialCollider, potentialCollidee) &&
-                    isPositionInList(potentialCollider.getPosition(), potentialCollidee.getPath())) {
+            int collisionIndex = potentialCollidee.getPath().indexOf(potentialCollider.getPosition());
+            if (isCollision(potentialCollider, potentialCollidee, collisionIndex)) {
                 return new Collision(potentialCollider, potentialCollidee, potentialCollider.getPosition());
             }
             return null;
         }
         
-        private boolean areSamePlayers(Player first, Player second) {
-            return first == second;
-        }
-        
-        private boolean isPositionInList(Position position, List<Position> list) {
-            return list.contains(position);
+        private boolean isCollision(Player collider, Player collidee, int collisionIndex) {
+            return collisionIndex != -1 &&
+                    (collider != collidee || collisionIndex != collider.getPath().size() - 1);
         }
     }
 
