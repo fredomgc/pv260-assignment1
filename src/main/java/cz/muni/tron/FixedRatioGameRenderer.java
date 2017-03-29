@@ -15,9 +15,9 @@ public class FixedRatioGameRenderer implements GameRenderer {
 
     @Override
     public void render(GameFrame frame, Output output) {
-        for (int row = 0; row < frame.getWidth(); row++) {
-            for (int column = 0; column < frame.getHeight(); column++) {
-                output.drawRectangle(frame.getPoint(new Position(row, column)), row, column, 1, 1);
+        for (int row = 0; row < frame.getHeight(); row++) {
+            for (int column = 0; column < frame.getWidth(); column++) {
+                output.drawRectangle(frame.getPoint(new Position(row, column)), column, row, 1, 1);
             }
         }
     }
