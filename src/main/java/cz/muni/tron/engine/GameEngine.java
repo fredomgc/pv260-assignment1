@@ -23,15 +23,17 @@ public class GameEngine {
     public void run() {
         while (!game.isEndGame()) {
             tick();
-            
-            //here some rendering?
-            renderer.render(game.getCurrentFrame(), output);
         }
         printResult();
     }
     
     private void tick() {
-        doGameStep();
+        try {
+            doGameStep();
+        } catch (Exception ex) {
+            throw new IllegalStateException("An error occured durring the game", ex);
+        }
+        
         try {
             Thread.sleep(game.getGameSpeed());
         } catch (InterruptedException ex) {
