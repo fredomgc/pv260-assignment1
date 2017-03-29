@@ -1,5 +1,6 @@
 package cz.muni.tron;
 
+import cz.muni.tron.engine.Output;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -65,6 +66,21 @@ public class ScreenManager {
         }
     }
 
+    public Output getOutput() {
+        Window w = vc.getFullScreenWindow();
+        if (w != null) {
+            BufferStrategy bs = w.getBufferStrategy();
+            return new ScreenOutput((Graphics2D) bs.getDrawGraphics());
+        } else {
+            return null;
+        }
+    }
+    
+    
+    /**
+     * @deprecated 
+     * @return 
+     */
     public Graphics2D getGraphics() {
         Window w = vc.getFullScreenWindow();
         if (w != null) {

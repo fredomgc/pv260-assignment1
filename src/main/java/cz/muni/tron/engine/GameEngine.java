@@ -16,9 +16,16 @@ public class GameEngine {
         this.output = output;
     }
     
+    private void initialize(){
+        //output.initialize();
+    }
+    
     public void run() {
         while (!game.isEndGame()) {
             tick();
+            
+            //here some rendering?
+            renderer.render(game.getCurrentFrame(), output);
         }
         printResult();
     }
