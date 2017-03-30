@@ -4,7 +4,7 @@ import cz.muni.tron.FixedRatioGameRenderer;
 import cz.muni.tron.Position;
 import cz.muni.tron.ScreenManager;
 import cz.muni.tron.ScreenOutput;
-import cz.muni.tron.SecondScreenManager;
+import cz.muni.tron.ScreenControl;
 import cz.muni.tron.engine.GameFrame;
 import cz.muni.tron.engine.InvalidPositionException;
 import java.awt.Color;
@@ -39,11 +39,11 @@ public class GameEngineTest {
             }
         };
         
-        SecondScreenManager sm = new SecondScreenManager();
+        ScreenControl sm = new ScreenControl();
         sm.openFullscreenWindow();
         
         GameRenderer gameRenderer = new FixedRatioGameRenderer();
-        gameRenderer.render(gameFrame, sm.getOutput());
+        //gameRenderer.render(gameFrame, sm.getOutput());
         sm.update();
         
         

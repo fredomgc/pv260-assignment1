@@ -22,4 +22,14 @@ public class NullOutput implements Output {
         return SIZE;
     }
 
+    @Override
+    public void initialize() {
+        //not needed
+    }
+
+    @Override
+    public void dispose() {
+        //not needed
+    }
+
 }

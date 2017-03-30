@@ -10,41 +10,49 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
-public class SecondScreenManager {
+public class ScreenControl {
 
     private enum MouseEventType {
         CLICKED, PRESSED, RELEASED, ENTERED, EXITED
     }
-    
+
     private enum KeyEventType {
         TYPED, PRESSED, RELEASED
     }
-    
 
     private JFrame frame;
 
     private java.util.List<MouseListener> mouseListeners = new ArrayList<>();
-    
+
     private java.util.List<KeyListener> keyListeners = new ArrayList<>();
 
-    public SecondScreenManager(JFrame frame) {
-        this.frame = frame;
-    }
-
-    public SecondScreenManager() {
-    }
-
-    public void openFullscreenWindow() {
+    public ScreenControl() {
         frame = new JFrame();
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setUndecorated(true);
-        frame.setVisible(true);
         //frame.createBufferStrategy(2);
-        
+
         handleMouseEvents();
         handlekeyEvents();
     }
 
+    public void openFullscreenWindow() {
+        frame.setVisible(true);
+    }
+
+    public void hideFullscreenWindow() {
+        frame.setVisible(false);
+        frame.dispose();
+    }
+
+    public int getWidth(){
+        return frame.getWidth();
+    }
+    
+    public int getHeight(){
+       return frame.getHeight();
+    }
+    
     private void handlekeyEvents() {
         frame.addKeyListener(new KeyListener() {
             @Override
@@ -63,7 +71,7 @@ public class SecondScreenManager {
             }
         });
     }
-    
+
     private void handleMouseEvents() {
         frame.addMouseListener(new MouseListener() {
             @Override
@@ -93,10 +101,8 @@ public class SecondScreenManager {
         });
     }
 
-    public Output getOutput() {
-        return new ScreenOutput((Graphics2D) frame.getGraphics());
-        
-        //return new ScreenOutput((Graphics2D) frame.getBufferStrategy().getDrawGraphics());
+    public Graphics2D getGraphics() {
+        return (Graphics2D) frame.getGraphics();
     }
 
     public void update() {
@@ -120,7 +126,7 @@ public class SecondScreenManager {
             }
         }
     }
-    
+
     private void fireMouseEvent(MouseEventType type, MouseEvent e) {
         for (MouseListener ml : mouseListeners) {
             switch (type) {
@@ -154,8 +160,7 @@ public class SecondScreenManager {
 
         mouseListeners.add(l);
     }
-    
-    
+
     public synchronized void addKeyListener(KeyListener l) {
         if (l == null) {
             return;

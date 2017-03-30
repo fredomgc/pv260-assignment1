@@ -8,8 +8,16 @@ import java.awt.Color;
  */
 public interface Output {
 
-    //nejake pripraveny obrazovky?
-    //public void initialize();
+    /**
+     * Prepares this output
+     */
+    public void initialize();
+    
+    /**
+     * Closes this output
+     */
+    public void dispose();
+    
     
     /**
      * Fills the specified rectangle.
