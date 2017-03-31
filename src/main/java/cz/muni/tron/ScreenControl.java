@@ -1,6 +1,5 @@
 package cz.muni.tron;
 
-import cz.muni.tron.engine.Output;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -10,34 +9,54 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+/**
+ * Creates and controls the screen
+ *
+ * @author Ondřej Směták <posta@ondrejsmetak.cz>
+ */
 public class ScreenControl {
 
+    /**
+     * Type of MouseEvent
+     */
     private enum MouseEventType {
         CLICKED, PRESSED, RELEASED, ENTERED, EXITED
     }
 
+    /**
+     * Type of KeyEvent
+     */
     private enum KeyEventType {
         TYPED, PRESSED, RELEASED
     }
 
+    /**
+     * Frame, that represents the screen
+     */
     private JFrame frame;
 
+    /**
+     * Collection of the registered MouseListeners
+     */
     private java.util.List<MouseListener> mouseListeners = new ArrayList<>();
 
+    /**
+     * Collection of the registered KeyListeners
+     */
     private java.util.List<KeyListener> keyListeners = new ArrayList<>();
 
     public ScreenControl() {
         frame = new JFrame();
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setUndecorated(true);
-        //frame.createBufferStrategy(2);
 
         handleMouseEvents();
         handlekeyEvents();
     }
-
+    
     public void openFullscreenWindow() {
         frame.setVisible(true);
+        frame.createBufferStrategy(2);
     }
 
     public void hideFullscreenWindow() {
@@ -45,14 +64,14 @@ public class ScreenControl {
         frame.dispose();
     }
 
-    public int getWidth(){
+    public int getWidth() {
         return frame.getWidth();
     }
-    
-    public int getHeight(){
-       return frame.getHeight();
+
+    public int getHeight() {
+        return frame.getHeight();
     }
-    
+
     private void handlekeyEvents() {
         frame.addKeyListener(new KeyListener() {
             @Override
@@ -101,14 +120,28 @@ public class ScreenControl {
         });
     }
 
+    /**
+     * Returns standard Graphics2D object for drawing into
+     *
+     * @return Graphics2D object
+     */
     public Graphics2D getGraphics() {
-        return (Graphics2D) frame.getGraphics();
+        return (Graphics2D) frame.getBufferStrategy().getDrawGraphics();
     }
 
+    /**
+     * Redraws the screen
+     */
     public void update() {
         frame.getBufferStrategy().show();
     }
 
+    /**
+     * Fires the specified event in all registered key listeners
+     *
+     * @param type the type of the event
+     * @param e key event
+     */
     private void fireKeyEvent(KeyEventType type, KeyEvent e) {
         for (KeyListener kl : keyListeners) {
             switch (type) {
@@ -127,6 +160,12 @@ public class ScreenControl {
         }
     }
 
+    /**
+     * Fires the specified event in all registered mouse listeners
+     *
+     * @param type the type of the event
+     * @param e mouse event
+     */
     private void fireMouseEvent(MouseEventType type, MouseEvent e) {
         for (MouseListener ml : mouseListeners) {
             switch (type) {
@@ -153,6 +192,12 @@ public class ScreenControl {
         }
     }
 
+    /**
+     * Adds the specified mouse listener to receive mouse events from this
+     * screen
+     *
+     * @param l the mouse listener
+     */
     public synchronized void addMouseListener(MouseListener l) {
         if (l == null) {
             return;
@@ -161,6 +206,11 @@ public class ScreenControl {
         mouseListeners.add(l);
     }
 
+    /**
+     * Adds the specified key listener to receive key events from this screen
+     *
+     * @param l the key listener
+     */
     public synchronized void addKeyListener(KeyListener l) {
         if (l == null) {
             return;

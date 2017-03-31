@@ -12,21 +12,25 @@ public interface Output {
      * Prepares this output
      */
     public void initialize();
-    
+
+    /**
+     * Use to redraw output
+     */
+    public void update();
+
     /**
      * Closes this output
      */
     public void dispose();
-    
-    
+
     /**
      * Fills the specified rectangle.
      *
      * @param color color used to fill the rectangle
-     * @param x
-     * @param y
-     * @param width
-     * @param height
+     * @param x the x coordinate of the rectangle to be filled
+     * @param y the y coordinate of the rectangle to be filled
+     * @param width the width of the rectangle to be filled
+     * @param height the height of the rectangle to be filled
      */
     public void drawRectangle(Color color, int x, int y, int width, int height);
 

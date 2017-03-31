@@ -32,4 +32,9 @@ public class NullOutput implements Output {
         //not needed
     }
 
+    @Override
+    public void update() {
+        //not needed
+    }
+
 }
