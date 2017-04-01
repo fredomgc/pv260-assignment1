@@ -1,6 +1,7 @@
 package cz.muni.tron.output;
 
 import cz.muni.tron.engine.Output;
+import cz.muni.tron.engine.Resolution;
 import cz.muni.tron.events.EventListener;
 import java.awt.Color;
 
@@ -11,16 +12,6 @@ public class NullOutput implements Output {
     @Override
     public void drawRectangle(Color color, int x, int y, int width, int height) {
         // we ignore everything
-    }
-
-    @Override
-    public int getWidth() {
-        return SIZE;
-    }
-
-    @Override
-    public int getHeight() {
-        return SIZE;
     }
 
     @Override
@@ -36,6 +27,11 @@ public class NullOutput implements Output {
     @Override
     public void update() {
         //not needed
+    }
+
+    @Override
+    public Resolution getResolution() {
+        return null;
     }
 
 }

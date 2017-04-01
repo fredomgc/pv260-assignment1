@@ -2,6 +2,7 @@ package cz.muni.tron;
 
 import cz.muni.tron.engine.GameFrame;
 import cz.muni.tron.engine.InvalidPositionException;
+import cz.muni.tron.engine.Resolution;
 import java.awt.Color;
 import java.util.List;
 
@@ -19,12 +20,15 @@ public class PositionsListFrame implements GameFrame {
     }
 
     @Override
-    public int getWidth() {
+    public Resolution getResolution() {
+        return new Resolution(getWidth(), getHeight());
+    }
+
+    private int getWidth() {
         return frame[0].length;
     }
 
-    @Override
-    public int getHeight() {
+    private int getHeight() {
         return frame.length;
     }
 

@@ -9,14 +9,9 @@ import java.awt.Color;
 public interface GameFrame {
 
     /**
-     * @return Width of this game frame in points
+     * @return Resolution of this game frame in points
      */
-    public int getWidth();
-
-    /**
-     * @return Height of this game frame in points
-     */
-    public int getHeight();
+    public Resolution getResolution();
 
     /**
      * @param position Position index

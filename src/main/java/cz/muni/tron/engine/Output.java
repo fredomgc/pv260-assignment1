@@ -36,14 +36,9 @@ public interface Output {
     public void drawRectangle(Color color, int x, int y, int width, int height);
 
     /**
-     * @return Available width to draw into
+     * The given resolution can be null if given output does not support it.
+     * @return Available resolution to draw into
      */
-    public int getWidth();
-
-    /**
-     *
-     * @return Available height to draw into
-     */
-    public int getHeight();
+    public Resolution getResolution();
 
 }

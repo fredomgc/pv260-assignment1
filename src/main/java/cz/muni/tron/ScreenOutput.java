@@ -1,6 +1,7 @@
 package cz.muni.tron;
 
 import cz.muni.tron.engine.Output;
+import cz.muni.tron.engine.Resolution;
 import cz.muni.tron.events.EventListener;
 import cz.muni.tron.events.KeyPressedEventImpl;
 import cz.muni.tron.events.MouseButton;
@@ -45,13 +46,8 @@ public class ScreenOutput implements Output {
     }
 
     @Override
-    public int getWidth() {
-        return screenControl.getWidth();
-    }
-
-    @Override
-    public int getHeight() {
-        return screenControl.getHeight();
+    public Resolution getResolution() {
+        return new Resolution(screenControl.getWidth(), screenControl.getHeight());
     }
 
     @Override
