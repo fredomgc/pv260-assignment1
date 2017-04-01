@@ -31,8 +31,8 @@ public class ScreenOutput implements Output {
      */
     private final ScreenControl screenControl;
 
-    public ScreenOutput() {
-        screenControl = new ScreenControl();
+    public ScreenOutput(ScreenControl screenControl) {
+        this.screenControl = screenControl;
     }
 
     @Override

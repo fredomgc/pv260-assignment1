@@ -14,7 +14,7 @@ import javax.swing.JFrame;
  *
  * @author Ondřej Směták <posta@ondrejsmetak.cz>
  */
-public class ScreenControl {
+public abstract class ScreenControl {
 
     /**
      * Type of MouseEvent
@@ -71,6 +71,10 @@ public class ScreenControl {
     public int getHeight() {
         return frame.getHeight();
     }
+    
+    protected JFrame getFrame() {
+        return frame;
+    }
 
     private void handlekeyEvents() {
         frame.addKeyListener(new KeyListener() {
@@ -125,15 +129,13 @@ public class ScreenControl {
      *
      * @return Graphics2D object
      */
-    public Graphics2D getGraphics() {
-        return (Graphics2D) frame.getBufferStrategy().getDrawGraphics();
-    }
+    abstract public Graphics2D getGraphics();
 
     /**
      * Redraws the screen
      */
     public void update() {
-        frame.getBufferStrategy().show();
+        
     }
 
     /**
