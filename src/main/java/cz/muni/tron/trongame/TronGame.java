@@ -57,14 +57,18 @@ public class TronGame implements Game {
 
     @Override
     public boolean isEndGame() {
-        return isCollision();
+        return isCollision() || players.isEmpty();
     }
 
     @Override
     public String getResult() {
-        return isCollision()
-                ? collisition.toString()
-                : "Game was not ended";
+        if (isCollision()) {
+            return collisition.toString();
+        }
+        if (players.isEmpty()) {
+            return "No players";
+        }
+        return "Game was not ended";
     }
 
     private boolean isCollision() {
