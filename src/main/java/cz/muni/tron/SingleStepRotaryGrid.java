@@ -1,5 +1,7 @@
 package cz.muni.tron;
 
+import cz.muni.tron.controls.Direction;
+
 
 public class SingleStepRotaryGrid implements Grid {
 

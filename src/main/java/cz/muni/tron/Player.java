@@ -1,5 +1,7 @@
 package cz.muni.tron;
 
+import cz.muni.tron.controls.Direction;
+import cz.muni.tron.controls.Turn;
 import cz.muni.tron.controls.TurnListenerWithDirection;
 import java.awt.Color;
 import java.util.ArrayList;

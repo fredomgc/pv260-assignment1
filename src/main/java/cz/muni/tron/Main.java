@@ -1,5 +1,6 @@
 package cz.muni.tron;
 
+import cz.muni.tron.controls.Direction;
 import cz.muni.tron.output.ScreenOutput;
 import cz.muni.tron.controls.KeyArrowsTurnController;
 import cz.muni.tron.controls.MouseButtonsTurnController;

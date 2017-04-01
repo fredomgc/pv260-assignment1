@@ -1,7 +1,5 @@
 package cz.muni.tron.controls;
 
-import cz.muni.tron.Turn;
-
 
 public interface TurnListener {
     

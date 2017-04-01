@@ -1,4 +1,4 @@
-package cz.muni.tron;
+package cz.muni.tron.controls;
 
 public enum Turn {
     LEFT,

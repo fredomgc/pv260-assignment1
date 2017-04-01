@@ -1,6 +1,5 @@
 package cz.muni.tron.controls;
 
-import cz.muni.tron.Direction;
 import cz.muni.tron.events.EventNotifier;
 import cz.muni.tron.events.KeyPressedEvent;
 import cz.muni.tron.events.KeyPressedEventSubscriber;
