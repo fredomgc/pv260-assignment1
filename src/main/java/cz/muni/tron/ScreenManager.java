@@ -66,11 +66,16 @@ public class ScreenManager {
         }
     }
 
+    /**
+     * @deprecated 
+     * @return 
+     */
     public Output getOutput() {
         Window w = vc.getFullScreenWindow();
         if (w != null) {
             BufferStrategy bs = w.getBufferStrategy();
-            return new ScreenOutput((Graphics2D) bs.getDrawGraphics());
+            return null;
+            //return new ScreenOutput((Graphics2D) bs.getDrawGraphics());
         } else {
             return null;
         }

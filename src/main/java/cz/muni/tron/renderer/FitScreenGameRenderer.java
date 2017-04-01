@@ -5,27 +5,32 @@ import cz.muni.tron.engine.GameFrame;
 import cz.muni.tron.engine.GameRenderer;
 import cz.muni.tron.engine.Output;
 
-
+/**
+ * Renderer, that scales GameFrame to fit the screen
+ *
+ * @author Dominik Veselý <Dominik.Vesely@ysoft.com>
+ * @author Ondřej Směták <posta@ondrejsmetak.cz>
+ */
 public class FitScreenGameRenderer implements GameRenderer {
-
+    
     @Override
     public void render(GameFrame frame, Output output) {
-        double horizontalScale = getAxisScale(output.getWidth(), frame.getWidth());
-        double verticalScale = getAxisScale(output.getHeight(), frame.getWidth());
-        double scale = getScale(verticalScale, horizontalScale);
-        int horizontalOffset = getAxisOffset(output.getWidth(), frame.getWidth(), scale);
-        int verticalOffset = getAxisOffset(output.getHeight(), frame.getHeight(), scale);
-        int blockSize = getRectangleSize(scale);
+        FitScreenGameRendererSetting setting = createSetting(frame, output);
+        
         for (int row = 0; row < frame.getHeight(); row++) {
             for (int column = 0; column < frame.getWidth(); column++) {
-                output.drawRectangle(
-                        frame.getPoint(new Position(row, column)),
-                        getDrawPosition(column, horizontalOffset, scale),
-                        getDrawPosition(row, verticalOffset, scale),
-                        blockSize,
-                        blockSize);
+                doDrawRectangle(frame, output, row, column, setting);
             }
         }
+    }
+    
+    private void doDrawRectangle(GameFrame frame, Output output, int row, int column, FitScreenGameRendererSetting setting) {
+        output.drawRectangle(
+                frame.getPoint(new Position(row, column)),
+                getDrawPosition(column, setting.getHorizontalOffset(), setting.getScale()),
+                getDrawPosition(row, setting.getVerticalOffset(), setting.getScale()),
+                setting.getBlockSize(),
+                setting.getBlockSize());
     }
     
     private double getAxisScale(int outputSize, int frameSize) {
@@ -48,4 +53,17 @@ public class FitScreenGameRenderer implements GameRenderer {
         return (int) Math.round(Math.max(scale, 1));
     }
     
+    private FitScreenGameRendererSetting createSetting(GameFrame frame, Output output) {
+        FitScreenGameRendererSetting s = new FitScreenGameRendererSetting();
+        
+        s.setHorizontalScale(getAxisScale(output.getWidth(), frame.getWidth()));
+        s.setVerticalScale(getAxisScale(output.getHeight(), frame.getWidth()));
+        s.setScale(getScale(s.getVerticalScale(), s.getHorizontalScale()));
+        
+        s.setHorizontalOffset(getAxisOffset(output.getWidth(), frame.getWidth(), s.getScale()));
+        s.setVerticalScale(getAxisOffset(output.getHeight(), frame.getHeight(), s.getScale()));
+        s.setBlockSize(getRectangleSize(s.getScale()));
+        
+        return s;
+    }
 }

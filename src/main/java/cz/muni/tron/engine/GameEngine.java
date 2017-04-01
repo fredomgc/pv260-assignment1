@@ -49,6 +49,7 @@ public class GameEngine {
     private void doGameStep() {
         game.tick();
         renderer.render(game.getCurrentFrame(), output);
+        output.update();
     }
     
     private void printResult() {
