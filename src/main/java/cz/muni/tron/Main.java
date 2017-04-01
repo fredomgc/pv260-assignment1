@@ -1,5 +1,6 @@
 package cz.muni.tron;
 
+import cz.muni.tron.controls.AiRandomTurnControler;
 import cz.muni.tron.trongame.SingleStepRotaryGrid;
 import cz.muni.tron.trongame.Player;
 import cz.muni.tron.trongame.TronGame;
@@ -21,6 +22,7 @@ public class Main {
         game.addPlayer(player1);
         game.addController(new KeyArrowsTurnController(player1, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT));
         game.addController(new MouseButtonsTurnController(player1));
+        game.addController(new AiRandomTurnControler(player1, .1));
         new GameEngine(
                 game,
                 new FitScreenGameRenderer(),
