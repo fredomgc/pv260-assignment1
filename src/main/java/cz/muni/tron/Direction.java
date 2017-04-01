@@ -14,19 +14,44 @@ public enum Direction {
         return getOpositeDirecton(this) == otherDirecton;
     }
     
-    private Direction getOpositeDirecton(Direction direction) {
-        switch (direction) {
-            case UP:
-                return DOWN;
-            case DOWN:
-                return UP;
-            case LEFT:
-                return RIGHT;
-            case RIGHT:
-                return LEFT;
-            default:
-                return direction;
+    public Direction turn(Turn turn) {
+        if (turn == Turn.LEFT) {
+            return turnLeft();
         }
+        return turnRight();
+    }
+    
+    public Turn toTurn(Direction otherDirection) {
+        if (turnLeft() == otherDirection) {
+            return Turn.LEFT;
+        }
+        if (turnRight() == otherDirection) {
+            return Turn.RIGHT;
+        }
+        return null;
+    }
+    
+    private Direction turnLeft() {
+        switch (this) {
+            case UP:
+                return LEFT;
+            case DOWN:
+                return RIGHT;
+            case LEFT:
+                return DOWN;
+            case RIGHT:
+                return UP;
+            default:
+                return this;
+        }
+    }
+    
+    private Direction turnRight() {
+        return turnLeft().turnLeft().turnLeft();
+    }
+    
+    private Direction getOpositeDirecton(Direction direction) {
+        return direction.turnLeft().turnLeft();
     }
     
 }
