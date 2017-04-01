@@ -4,18 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EventDispatcher implements EventListener, EventNotifier {
-    
+
     private final KeyPressEventHandler keyPressEventHandler = new KeyPressEventHandler();
     private final MouseClickEventHandler mouseClickEventHandler = new MouseClickEventHandler();
-    
+    private final GameTickEventHandler gameTickEventHandler = new GameTickEventHandler();
+
     @Override
     public void keyPressed(KeyPressedEvent event) {
         keyPressEventHandler.notifyKeyPressed(event);
     }
-    
+
     @Override
     public void mouseClicked(MouseClickedEvent event) {
         mouseClickEventHandler.notifyMouseClicked(event);
+    }
+
+    @Override
+    public void gameTick() {
+        gameTickEventHandler.notifyGameTick();
     }
 
     @Override
@@ -27,34 +33,48 @@ public class EventDispatcher implements EventListener, EventNotifier {
     public void subscribeMouseClicked(MouseClickedEventSubscriber subscriber) {
         mouseClickEventHandler.addSubscriber(subscriber);
     }
-    
-    
-    private class KeyPressEventHandler {
-        
-        private final List<KeyPressedEventSubscriber> keyPressedSubscribers = new ArrayList<>();
-        
-        public void addSubscriber(KeyPressedEventSubscriber subscriber) {
-            keyPressedSubscribers.add(subscriber);
+
+    @Override
+    public void subscribeGameTick(GameTickEventSubscriber subscriber) {
+        gameTickEventHandler.addSubscriber(subscriber);
+    }
+
+    private abstract class EventHandler<T> {
+
+        private final List<T> subscribers = new ArrayList<>();
+
+        public void addSubscriber(T subscriber) {
+            subscribers.add(subscriber);
         }
-        
+
+        protected List<T> getSubscribers() {
+            return subscribers;
+        }
+
+    }
+
+    private class KeyPressEventHandler extends EventHandler<KeyPressedEventSubscriber> {
+
         public void notifyKeyPressed(KeyPressedEvent event) {
-            keyPressedSubscribers.stream().forEach(subscriber -> subscriber.keyPresed(event));
+            getSubscribers().stream().forEach(subscriber -> subscriber.keyPresed(event));
         }
-        
+
     }
-    
-    private class MouseClickEventHandler {
-        
-        private final List<MouseClickedEventSubscriber> mouseClickSubscribers = new ArrayList<>();
-        
-        public void addSubscriber(MouseClickedEventSubscriber subscriber) {
-            mouseClickSubscribers.add(subscriber);
-        }
-        
+
+    private class MouseClickEventHandler extends EventHandler<MouseClickedEventSubscriber> {
+
         public void notifyMouseClicked(MouseClickedEvent event) {
-            mouseClickSubscribers.stream().forEach(subscriber -> subscriber.mouseClicked(event));
+            getSubscribers().stream().forEach(subscriber -> subscriber.mouseClicked(event));
         }
-        
+
     }
-    
+
+    private class GameTickEventHandler extends EventHandler<GameTickEventSubscriber> {
+
+        public void notifyGameTick() {
+            getSubscribers().stream().forEach(subscriber -> subscriber.gameTick());
+        }
+
+    }
+
 }

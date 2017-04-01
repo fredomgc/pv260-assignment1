@@ -78,6 +78,7 @@ public class GameEngine {
         try {
             game.tick();
             renderCurrentScene();
+            eventDispatcher.gameTick();
         } catch (Exception ex) {
             throw new IllegalStateException("An error occured durring the game", ex);
         }

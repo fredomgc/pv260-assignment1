@@ -6,4 +6,6 @@ public interface EventNotifier {
     public void subscribeKeyPressed(KeyPressedEventSubscriber subscriber);
     
     public void subscribeMouseClicked(MouseClickedEventSubscriber subscriber);
+    
+    public void subscribeGameTick(GameTickEventSubscriber subscriber);
 }

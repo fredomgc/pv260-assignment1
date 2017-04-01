@@ -7,4 +7,6 @@ public interface EventListener {
     
     public void mouseClicked(MouseClickedEvent event);
     
+    public void gameTick();
+    
 }
