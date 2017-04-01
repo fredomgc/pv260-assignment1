@@ -2,10 +2,17 @@ package cz.muni.tron;
 
 import cz.muni.tron.engine.Output;
 import cz.muni.tron.events.EventListener;
+import cz.muni.tron.events.KeyPressedEvent;
+import cz.muni.tron.events.KeyPressedEventImpl;
+import cz.muni.tron.events.MouseButton;
+import cz.muni.tron.events.MouseClickedEventImpl;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.SwingUtilities;
 
 /**
  * Output to the screen represented via JFrame window
@@ -51,7 +58,9 @@ public class ScreenOutput implements Output {
     @Override
     public void initialize(EventListener eventListener) {
         screenControl.openFullscreenWindow();
-        this.graphics = screenControl.getGraphics();
+        graphics = screenControl.getGraphics();
+        screenControl.addKeyListener(new AWTKeyEventBinder(eventListener));
+        screenControl.addMouseListener(new AWTMouseEventBinder(eventListener));
     }
 
     @Override
@@ -70,6 +79,82 @@ public class ScreenOutput implements Output {
 
     public synchronized void addKeyListener(KeyListener l) {
         screenControl.addKeyListener(l);
+    }
+    
+    private class AWTKeyEventBinder implements KeyListener {
+        
+        private final EventListener eventListener;
+
+        public AWTKeyEventBinder(EventListener eventListener) {
+            this.eventListener = eventListener;
+        }
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+            
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            eventListener.keyPressed(new KeyPressedEventImpl(e.getKeyCode()));
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            
+        }
+        
+    }
+    
+    private class AWTMouseEventBinder implements MouseListener {
+
+        private final EventListener eventListener;
+
+        public AWTMouseEventBinder(EventListener eventListener) {
+            this.eventListener = eventListener;
+        }
+        
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            MouseButton button = translateMouseButton(e);
+            if (button != null) {
+                eventListener.mouseClicked(new MouseClickedEventImpl(button));
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            
+        }
+        
+        private MouseButton translateMouseButton(MouseEvent event) {
+            if (SwingUtilities.isLeftMouseButton(event)) {
+                return MouseButton.LEFT;
+            }
+            if (SwingUtilities.isRightMouseButton(event)) {
+                return MouseButton.RIGHT;
+            }
+            if (SwingUtilities.isMiddleMouseButton(event)) {
+                return MouseButton.MIDDLE;
+            }
+            return null;
+        }
+        
     }
 
 }
