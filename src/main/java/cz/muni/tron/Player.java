@@ -7,13 +7,12 @@ import java.util.List;
 
 public class Player implements TurnListenerWithDirection {
 
-    private Direction currentDirection;
+    private final PlayerDirection playerDirection;
     private final Color color;
-
     private final List<Position> path = new ArrayList();
 
     public Player(Position position, Direction currentDirection, Color color) {
-        this.currentDirection = currentDirection;
+        this.playerDirection = new PlayerDirection(currentDirection, position);
         this.color = color;
         this.path.add(position);
     }
@@ -32,7 +31,7 @@ public class Player implements TurnListenerWithDirection {
 
     public void move(Grid inGrid) {
         path.add(
-                inGrid.move(getPosition(), currentDirection)
+                inGrid.move(getPosition(), getDirection())
         );
     }
 
@@ -43,11 +42,42 @@ public class Player implements TurnListenerWithDirection {
 
     @Override
     public Direction getDirection() {
-        return currentDirection;
+        return playerDirection.getDirection();
     }
 
     @Override
     public void turn(Turn turn) {
-        currentDirection = currentDirection.turn(turn);
+        playerDirection.turn(turn);
     }
+    
+    private class PlayerDirection {
+        private Direction currentDirection;
+        private Position lastDirectionChange;
+
+        public PlayerDirection(Direction initialDirection, Position initialPosition) {
+            this.currentDirection = initialDirection;
+            this.lastDirectionChange = initialPosition;
+        }
+        
+        public Direction getDirection() {
+            return currentDirection;
+        }
+        
+        public void turn(Turn turn) {
+            if (canChangeDirection()) {
+                doTurn(turn);
+            }
+        }
+        
+        private boolean canChangeDirection() {
+            return !lastDirectionChange.equals(getPosition());
+        }
+        
+        private void doTurn(Turn turn) {
+            currentDirection = currentDirection.turn(turn);
+            lastDirectionChange = getPosition();
+        }
+        
+    }
+    
 }
