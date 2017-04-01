@@ -17,6 +17,7 @@ public class GameEngine {
     private final EventDispatcher eventDispatcher = new EventDispatcher();
     private boolean gameRunning = false;
     private boolean gameTerminated = false;
+    private int gameTicks = 0;
 
     public GameEngine(Game game, GameRenderer renderer, Output output) {
         this.game = game;
@@ -43,10 +44,15 @@ public class GameEngine {
     
     private void runTheGame() {
         gameRunning = true;
+        runTillTheEnd();
+        gameRunning = false;
+    }
+    
+    private void runTillTheEnd() {
         while (isGameRunning()) {
             tick();
+            gameTicks++;
         }
-        gameRunning = false;
     }
     
     private boolean isGameRunning() {
@@ -84,9 +90,9 @@ public class GameEngine {
     
     private void printResult() {
         if (gameTerminated) {
-            System.out.println("The game was terminated");
+            System.out.println("The game was terminated after " + gameTicks + " ticks");
         } else {
-            System.out.println("The game ended with result:");
+            System.out.println("The game ended after " + gameTicks + " ticks with result:");
             System.out.println(game.getResult());
         }
     }
