@@ -16,15 +16,20 @@ public class GameEngine {
         this.output = output;
     }
     
-    private void initialize(){
-        //output.initialize();
+    private void initialize() {
+        
     }
     
     public void run() {
+        initialize();
+        runTheGame();
+        printResult();
+    }
+    
+    private void runTheGame() {
         while (!game.isEndGame()) {
             tick();
         }
-        printResult();
     }
     
     private void tick() {
