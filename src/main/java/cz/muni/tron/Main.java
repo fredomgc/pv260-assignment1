@@ -5,7 +5,7 @@ import cz.muni.tron.controls.KeyArrowsTurnController;
 import cz.muni.tron.controls.MouseButtonsTurnController;
 import cz.muni.tron.engine.GameEngine;
 import cz.muni.tron.output.EagerScreenControl;
-import cz.muni.tron.renderer.FixedSizeGameRenderer;
+import cz.muni.tron.renderer.FitScreenGameRenderer;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 
@@ -19,7 +19,7 @@ public class Main {
         game.addController(new MouseButtonsTurnController(player1));
         new GameEngine(
                 game,
-                new FixedSizeGameRenderer(10),
+                new FitScreenGameRenderer(),
                 new ScreenOutput(new EagerScreenControl())
         ).run();
     }

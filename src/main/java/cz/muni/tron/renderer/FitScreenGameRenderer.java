@@ -13,58 +13,129 @@ import cz.muni.tron.engine.Resolution;
  * @author Ondřej Směták <posta@ondrejsmetak.cz>
  */
 public class FitScreenGameRenderer implements GameRenderer {
-    
+
     @Override
     public void render(GameFrame frame, Output output) {
-        FitScreenGameRendererSetting setting = createSetting(frame, output);
-        Resolution frameResolution = frame.getResolution();
-        for (int row = 0; row < frameResolution.getHeight(); row++) {
-            for (int column = 0; column < frameResolution.getWidth(); column++) {
-                doDrawRectangle(frame, output, row, column, setting);
+        new Renderer(frame, output).render();
+    }
+
+    private int round(double number) {
+        return (int) Math.round(number);
+    }
+
+    private class Renderer {
+
+        private final GameFrame frame;
+        private final Output output;
+        private final ScaleCalculator scale;
+        private final OffsetCalculator offset;
+        private double positionX;
+        private double positionY;
+
+        public Renderer(GameFrame frame, Output output) {
+            this.frame = frame;
+            this.output = output;
+            scale = new ScaleCalculator(frame.getResolution(), output.getResolution());
+            offset = new OffsetCalculator(scale.getScaledResolution(), output.getResolution(), HorizontalAlignment.CENTER, VerticalAlignment.CENTER);
+        }
+
+        public void render() {
+            preparePositionY();
+            renderRows();
+        }
+
+        private void renderRows() {
+            for (int row = 0; row < frame.getResolution().getHeight(); row++) {
+                renderRow(row);
+                movePositionY();
             }
         }
+
+        private void renderRow(int row) {
+            preparePositionX();
+            for (int column = 0; column < frame.getResolution().getWidth(); column++) {
+                renderSquare(row, column);
+                movePositionX();
+            }
+        }
+
+        private void renderSquare(int row, int column) {
+            output.drawRectangle(
+                    frame.getPoint(new Position(row, column)),
+                    round(positionX),
+                    round(positionY),
+                    scale.getBlockSize(),
+                    scale.getBlockSize());
+        }
+
+        private void preparePositionY() {
+            positionY = offset.getVerticalOffset();
+        }
+
+        private void preparePositionX() {
+            positionX = offset.getHorizontalOffset();
+        }
+
+        private void movePositionY() {
+            positionY += scale.getScale();
+        }
+
+        private void movePositionX() {
+            positionX += scale.getScale();
+        }
+
     }
-    
-    private void doDrawRectangle(GameFrame frame, Output output, int row, int column, FitScreenGameRendererSetting setting) {
-        output.drawRectangle(
-                frame.getPoint(new Position(row, column)),
-                getDrawPosition(column, setting.getHorizontalOffset(), setting.getScale()),
-                getDrawPosition(row, setting.getVerticalOffset(), setting.getScale()),
-                setting.getBlockSize(),
-                setting.getBlockSize());
+
+    private class ScaleCalculator {
+
+        private final double scale;
+        private final Resolution scaledResolution;
+        private final int blockSize;
+
+        public ScaleCalculator(Resolution inputResolution, Resolution outputResolution) {
+            scale = getScale(inputResolution, outputResolution);
+            scaledResolution = scaleResolution(inputResolution);
+            blockSize = calculateBlockSize();
+        }
+
+        public double getScale() {
+            return scale;
+        }
+
+        public Resolution getScaledResolution() {
+            return scaledResolution;
+        }
+
+        public int getBlockSize() {
+            return blockSize;
+        }
+
+        private double getAxisScale(int inputSize, int outputSize) {
+            return (double) outputSize / inputSize;
+        }
+
+        private double getScale(Resolution inputResolution, Resolution outputResolution) {
+            return getScale(
+                    getAxisScale(inputResolution.getWidth(), outputResolution.getWidth()),
+                    getAxisScale(inputResolution.getHeight(), outputResolution.getHeight()));
+        }
+
+        private double getScale(double horizontalScale, double verticalScale) {
+            return Math.min(horizontalScale, verticalScale);
+        }
+
+        private Resolution scaleResolution(Resolution resolution) {
+            return new Resolution(scaleAxis(resolution.getWidth()), scaleAxis(resolution.getHeight()));
+        }
+
+        private int scaleAxis(int axis) {
+            return round(axis * scale);
+        }
+
+        private int calculateBlockSize() {
+            return (int) Math.ceil(scale);
+        }
+
     }
-    
-    private double getAxisScale(int outputSize, int frameSize) {
-        return (double) outputSize / frameSize;
-    }
-    
-    private double getScale(double verticalScale, double horizontalScale) {
-        return Math.min(verticalScale, horizontalScale);
-    }
-    
-    private int getAxisOffset(int outputSize, int frameSize, double scale) {
-        return (int) ((outputSize - frameSize * scale) / 2);
-    }
-    
-    private int getDrawPosition(int position, int offset, double scale) {
-        return offset + (int) Math.round(position * scale);
-    }
-    
-    private int getRectangleSize(double scale) {
-        return (int) Math.round(Math.max(scale, 1));
-    }
-    
-    private FitScreenGameRendererSetting createSetting(GameFrame frame, Output output) {
-        FitScreenGameRendererSetting s = new FitScreenGameRendererSetting();
-        
-        s.setHorizontalScale(getAxisScale(output.getResolution().getWidth(), frame.getResolution().getWidth()));
-        s.setVerticalScale(getAxisScale(output.getResolution().getHeight(), frame.getResolution().getWidth()));
-        s.setScale(getScale(s.getVerticalScale(), s.getHorizontalScale()));
-        
-        s.setHorizontalOffset(getAxisOffset(output.getResolution().getWidth(), frame.getResolution().getWidth(), s.getScale()));
-        s.setVerticalScale(getAxisOffset(output.getResolution().getHeight(), frame.getResolution().getHeight(), s.getScale()));
-        s.setBlockSize(getRectangleSize(s.getScale()));
-        
-        return s;
-    }
+
 }
