@@ -1,5 +1,8 @@
 package cz.muni.tron;
 
+import cz.muni.tron.trongame.SingleStepRotaryGrid;
+import cz.muni.tron.trongame.Player;
+import cz.muni.tron.trongame.TronGame;
 import cz.muni.tron.controls.Direction;
 import cz.muni.tron.output.ScreenOutput;
 import cz.muni.tron.controls.KeyArrowsTurnController;

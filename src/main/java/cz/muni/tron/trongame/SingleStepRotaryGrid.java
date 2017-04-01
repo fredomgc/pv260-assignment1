@@ -1,5 +1,6 @@
-package cz.muni.tron;
+package cz.muni.tron.trongame;
 
+import cz.muni.tron.Position;
 import cz.muni.tron.controls.Direction;
 
 
