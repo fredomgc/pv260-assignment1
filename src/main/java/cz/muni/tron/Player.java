@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.muni.tron;
 
+import cz.muni.tron.controls.TurnListenerWithDirection;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -12,11 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.SwingUtilities;
 
-/**
- *
- * @author Doumr
- */
-public class Player {
+
+public class Player implements TurnListenerWithDirection {
 
     private Direction currentDirection;
     private final Color color;
@@ -104,5 +97,15 @@ public class Player {
 
     public void changeDirection(MouseEvent e) {
         currentDirection = doChangeDirection(e, currentDirection);
+    }
+
+    @Override
+    public Direction getDirection() {
+        return currentDirection;
+    }
+
+    @Override
+    public void turn(Turn turn) {
+        currentDirection = currentDirection.turn(turn);
     }
 }

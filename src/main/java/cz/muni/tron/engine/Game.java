@@ -1,5 +1,7 @@
 package cz.muni.tron.engine;
 
+import cz.muni.tron.events.EventNotifier;
+
 /**
  * This is general interface of any game. It contains a basic interface required
  * by GameEngine.
@@ -26,7 +28,7 @@ public interface Game {
     public int getGameSpeed();
 
     /**
-     * Determines wheter the
+     * Determines wheter the game already ended
      *
      * @return Whether the end of the game was reached
      */
@@ -40,4 +42,10 @@ public interface Game {
      * @return Textual representation of the game result
      */
     public String getResult();
+
+    /**
+     * This method is called from engine before the start of the game. Event
+     * notifier is supplied to hook to the events.
+     */
+    public void initialize(EventNotifier eventNotifier);
 }

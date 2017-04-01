@@ -2,6 +2,8 @@ package cz.muni.tron;
 
 import cz.muni.tron.engine.Game;
 import cz.muni.tron.engine.GameFrame;
+import cz.muni.tron.events.EventNotifier;
+import cz.muni.tron.events.EventSubscriber;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,16 +13,20 @@ public class TronGame implements Game {
 
     private final List<Player> players = new ArrayList<>();
     private final Grid grid;
-    private final CollisionDetector collisionDetector;
+    private final CollisionDetector collisionDetector = new CollisionDetector();
     private Collision collisition;
+    private final EventController eventController = new EventController();
 
     public TronGame(Grid grid) {
         this.grid = grid;
-        collisionDetector = new CollisionDetector();
     }
 
     public void addPlayer(Player player) {
         players.add(player);
+    }
+    
+    public void addController(EventSubscriber controller) {
+        eventController.addSubscriber(controller);
     }
 
     @Override
@@ -71,6 +77,11 @@ public class TronGame implements Game {
     
     private void detectCollision() {
         collisition = collisionDetector.detectCollision(players);
+    }
+
+    @Override
+    public void initialize(EventNotifier eventNotifier) {
+        eventController.hookEvents(eventNotifier);
     }
     
     private class CollisionDetector {
@@ -131,6 +142,19 @@ public class TronGame implements Game {
                     " on position " + position;
         }
         
+    }
+    
+    private class EventController {
+        
+        private final List<EventSubscriber> eventSubscribers = new ArrayList<>();
+        
+        public void addSubscriber(EventSubscriber subscriber) {
+            eventSubscribers.add(subscriber);
+        }
+        
+        public void hookEvents(EventNotifier dispatcher) {
+            eventSubscribers.stream().forEach(subscriber -> subscriber.subscribe(dispatcher));
+        }
     }
 
 }
