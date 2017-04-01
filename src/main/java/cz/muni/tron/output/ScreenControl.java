@@ -1,4 +1,4 @@
-package cz.muni.tron;
+package cz.muni.tron.output;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;

@@ -1,4 +1,4 @@
-package cz.muni.tron;
+package cz.muni.tron.output;
 
 import cz.muni.tron.engine.Output;
 import cz.muni.tron.engine.Resolution;
