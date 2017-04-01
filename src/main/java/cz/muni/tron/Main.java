@@ -1,6 +1,7 @@
 package cz.muni.tron;
 
 import cz.muni.tron.controls.KeyArrowsTurnController;
+import cz.muni.tron.controls.MouseButtonsTurnController;
 import cz.muni.tron.engine.GameEngine;
 import cz.muni.tron.renderer.FitScreenGameRenderer;
 import java.awt.Color;
@@ -13,6 +14,7 @@ public class Main {
         Player player1 = new Player(new Position(5, 5), Direction.RIGHT, Color.YELLOW);
         game.addPlayer(player1);
         game.addController(new KeyArrowsTurnController(player1, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT));
+        game.addController(new MouseButtonsTurnController(player1));
         new GameEngine(game, new FitScreenGameRenderer(), new ScreenOutput())
                 .run();
     }
