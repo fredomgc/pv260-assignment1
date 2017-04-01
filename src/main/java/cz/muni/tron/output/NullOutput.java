@@ -1,6 +1,7 @@
 package cz.muni.tron.output;
 
 import cz.muni.tron.engine.Output;
+import cz.muni.tron.events.EventListener;
 import java.awt.Color;
 
 public class NullOutput implements Output {
@@ -23,7 +24,7 @@ public class NullOutput implements Output {
     }
 
     @Override
-    public void initialize() {
+    public void initialize(EventListener eventListener) {
         //not needed
     }
 

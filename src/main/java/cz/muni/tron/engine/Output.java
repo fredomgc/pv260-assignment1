@@ -1,5 +1,6 @@
 package cz.muni.tron.engine;
 
+import cz.muni.tron.events.EventListener;
 import java.awt.Color;
 
 /**
@@ -11,7 +12,7 @@ public interface Output {
     /**
      * Prepares this output
      */
-    public void initialize();
+    public void initialize(EventListener eventListener);
 
     /**
      * Use to redraw output
