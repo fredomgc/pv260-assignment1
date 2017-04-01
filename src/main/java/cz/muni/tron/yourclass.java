@@ -15,8 +15,8 @@ import java.util.ArrayList;
 public class yourclass extends Core implements KeyListener, MouseListener,
         MouseMotionListener {
 
-    private Player player1 = new Player(new Position(40 / 5, 40 / 5), Direction.RIGHT, Color.GREEN, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT);
-    private Player player2 = new Player(new Position(600 / 5, 440 / 5), Direction.LEFT, Color.RED, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D);
+    private Player player1 = new Player(new Position(40 / 5, 40 / 5), Direction.RIGHT, Color.GREEN);
+    private Player player2 = new Player(new Position(600 / 5, 440 / 5), Direction.LEFT, Color.RED);
     private Grid gameGrid;
     
     int moveAmount = 5;
@@ -61,8 +61,6 @@ public class yourclass extends Core implements KeyListener, MouseListener,
     }
 
     public void keyPressed(KeyEvent e) {
-        player1.changeDirection(e);
-        player2.changeDirection(e);
         
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             System.exit(0);
@@ -78,7 +76,7 @@ public class yourclass extends Core implements KeyListener, MouseListener,
     }
 
     public void mouseClicked(MouseEvent e) {
-		player1.changeDirection(e);
+        
     }
 
     public void mouseEntered(MouseEvent arg0) {
