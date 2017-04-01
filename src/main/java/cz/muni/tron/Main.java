@@ -1,9 +1,11 @@
 package cz.muni.tron;
 
+import cz.muni.tron.output.ScreenOutput;
 import cz.muni.tron.controls.KeyArrowsTurnController;
 import cz.muni.tron.controls.MouseButtonsTurnController;
 import cz.muni.tron.engine.GameEngine;
-import cz.muni.tron.renderer.FitScreenGameRenderer;
+import cz.muni.tron.output.EagerScreenControl;
+import cz.muni.tron.renderer.FixedSizeGameRenderer;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 
@@ -15,8 +17,11 @@ public class Main {
         game.addPlayer(player1);
         game.addController(new KeyArrowsTurnController(player1, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT));
         game.addController(new MouseButtonsTurnController(player1));
-        new GameEngine(game, new FitScreenGameRenderer(), new ScreenOutput())
-                .run();
+        new GameEngine(
+                game,
+                new FixedSizeGameRenderer(10),
+                new ScreenOutput(new EagerScreenControl())
+        ).run();
     }
 
 }
