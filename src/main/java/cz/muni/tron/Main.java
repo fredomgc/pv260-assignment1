@@ -17,6 +17,9 @@ import java.awt.event.KeyEvent;
 public class Main {
 
     public static void main(String[] args) {
+        // Ondřej Směták 448279
+        // Dominik Veselý 448261
+        
         TronGame game = new TronGame(new SingleStepRotaryGrid(100, 100));
         Player player1 = new Player(new Position(5, 5), Direction.RIGHT, Color.YELLOW);
         game.addPlayer(player1);
@@ -25,8 +28,8 @@ public class Main {
         game.addController(new AiRandomTurnControler(player1, .1));
         new GameEngine(
                 game,
-                new FitScreenGameRenderer(),
-                new ScreenOutput(new EagerScreenControl())
+                new FitScreenGameRenderer(), //optionally, you can use FixedSizeGameRenderer
+                new ScreenOutput(new EagerScreenControl()) //optionally, you can use BufferedScreenControl
         ).run();
     }
 
