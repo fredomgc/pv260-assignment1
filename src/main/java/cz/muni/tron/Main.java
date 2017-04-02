@@ -21,7 +21,13 @@ import java.awt.event.KeyEvent;
 public class Main {
 
     public static void main(String[] args) {
-        TronGame game = new TronGame(new RotaryEmptyGrid(100, 100), new ColliderLoosesGameType(), new StandardCollisionDetector());
+        // Ondřej Směták 448279
+        // Dominik Veselý 448261
+        
+        TronGame game = new TronGame(
+                new RotaryEmptyGrid(100, 100),
+                new ColliderLoosesGameType(),
+                new StandardCollisionDetector());
         Player player1 = new Player(new Position(5, 5), Direction.RIGHT, Color.YELLOW);
         game.addPlayer(player1);
         game.addController(new KeyArrowsTurnController(player1, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT));
@@ -29,8 +35,8 @@ public class Main {
         //game.addController(new AiRandomTurnControler(player1, .02));
         new GameEngine(
                 game,
-                new FitScreenGameRenderer(),
-                new ScreenOutput(new BufferedScreenControl())
+                new FitScreenGameRenderer(), //optionally, you can use FixedSizeGameRenderer
+                new ScreenOutput(new BufferedScreenControl()) //optionally, you can use BufferedScreenControl
         ).run();
     }
 
