@@ -11,6 +11,7 @@ public interface Output {
 
     /**
      * Prepares this output
+     * @param eventListener subscribing EventListener
      */
     public void initialize(EventListener eventListener);
 

@@ -71,9 +71,7 @@ public abstract class ScreenControl {
     /**
      * Redraws the screen
      */
-    public void update() {
-
-    }
+    abstract public void update();
 
     protected JFrame getFrame() {
         return frame;

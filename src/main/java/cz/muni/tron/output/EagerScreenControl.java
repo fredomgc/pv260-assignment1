@@ -9,4 +9,9 @@ public class EagerScreenControl extends ScreenControl {
         return (Graphics2D) getFrame().getGraphics();
     }
 
+    @Override
+    public void update() {
+        //not needed
+    }
+
 }
