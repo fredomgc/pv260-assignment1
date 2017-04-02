@@ -1,11 +1,11 @@
 package cz.muni.tron.trongame;
 
-import cz.muni.tron.Position;
 import cz.muni.tron.PositionsListFrame;
 import cz.muni.tron.engine.Game;
 import cz.muni.tron.engine.GameFrame;
 import cz.muni.tron.events.EventNotifier;
 import cz.muni.tron.events.EventSubscriber;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +18,7 @@ public class TronGame implements Game {
     private final CollisionDetector collisionDetector = new CollisionDetector();
     private Collision collisition;
     private final EventController eventController = new EventController();
+    private final FrameGenerator frameGenerator = new FrameGenerator();
 
     public TronGame(Grid grid) {
         this.grid = grid;
@@ -33,7 +34,7 @@ public class TronGame implements Game {
 
     @Override
     public void tick() {
-        if (isCollision()) {
+        if (isEndGame()) {
             return;
         }
         movePlayers();
@@ -42,12 +43,7 @@ public class TronGame implements Game {
 
     @Override
     public GameFrame getCurrentFrame() {
-        PositionsListFrame frame = new PositionsListFrame(grid.getResolution());
-        for (Player player : players) {
-            frame.addList(player.getPath(), player.getColor());
-            frame.addPosition(player.getPosition(), player.getColor().darker());
-        }
-        return frame;
+        return frameGenerator.generateFrame(players, grid);
     }
 
     @Override
@@ -77,12 +73,19 @@ public class TronGame implements Game {
 
     private void movePlayers() {
         for (Player player : players) {
-            player.move(grid);
+            try {
+                player.move(grid);
+            } catch (CollisionException ex) {
+                collisition = new Collision(player, ex.getPosition());
+                return;
+            }
         }
     }
     
     private void detectCollision() {
-        collisition = collisionDetector.detectCollision(players);
+        if (collisition == null) {
+            collisition = collisionDetector.detectCollision(players);
+        }
     }
 
     @Override
@@ -117,38 +120,6 @@ public class TronGame implements Game {
                     (collider != collidee || collisionIndex != collider.getPath().size() - 1);
         }
     }
-
-    private class Collision {
-
-        private final Player collider;
-        private final Player collidee;
-        private final Position position;
-
-        public Collision(Player collider, Player collidee, Position position) {
-            this.collider = collider;
-            this.collidee = collidee;
-            this.position = position;
-        }
-
-        public Player getCollider() {
-            return collider;
-        }
-
-        public Player getCollidee() {
-            return collidee;
-        }
-
-        public Position getPosition() {
-            return position;
-        }
-
-        @Override
-        public String toString() {
-            return collider + " crashed into " + collidee +
-                    " on position " + position;
-        }
-        
-    }
     
     private class EventController {
         
@@ -160,6 +131,30 @@ public class TronGame implements Game {
         
         public void hookEvents(EventNotifier dispatcher) {
             eventSubscribers.stream().forEach(subscriber -> subscriber.subscribe(dispatcher));
+        }
+    }
+    
+    private class FrameGenerator {
+        
+        private final Color WALL_COLOR = new Color(139, 69, 19);
+        
+        public GameFrame generateFrame(List<Player> players, Grid grid) {
+            
+            PositionsListFrame frame = new PositionsListFrame(grid.getResolution());
+            renderPlayers(frame, players);
+            renderWalls(frame, grid);
+            return frame;
+        }
+        
+        private void renderPlayers(PositionsListFrame frame, List<Player> players) {
+            for (Player player : players) {
+                frame.addList(player.getPath(), player.getColor());
+                frame.addPosition(player.getPosition(), player.getColor().darker());
+            }
+        }
+        
+        private void renderWalls(PositionsListFrame frame, Grid grid) {
+            frame.addList(grid.getWalls(), WALL_COLOR);
         }
     }
 

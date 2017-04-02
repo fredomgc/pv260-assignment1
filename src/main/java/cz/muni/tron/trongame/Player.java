@@ -32,7 +32,7 @@ public class Player implements TurnListenerWithDirection {
         return path;
     }
 
-    public void move(Grid inGrid) {
+    public void move(Grid inGrid) throws CollisionException {
         path.add(
                 inGrid.move(getPosition(), getDirection())
         );

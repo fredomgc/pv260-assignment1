@@ -3,6 +3,7 @@ package cz.muni.tron.trongame;
 import cz.muni.tron.Position;
 import cz.muni.tron.controls.Direction;
 import cz.muni.tron.engine.Resolution;
+import java.util.List;
 
 public interface Grid {
     
@@ -16,5 +17,8 @@ public interface Grid {
      *
      * @return New position after move
      */
-    public Position move(Position position, Direction direction);
+    public Position move(Position position, Direction direction) throws CollisionException;
+    
+    public List<Position> getWalls();
+    
 }
