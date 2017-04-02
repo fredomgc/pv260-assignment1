@@ -2,6 +2,7 @@ package cz.muni.tron.trongame;
 
 import cz.muni.tron.Position;
 import cz.muni.tron.controls.Direction;
+import cz.muni.tron.engine.Resolution;
 
 
 public class SingleStepRotaryGrid implements Grid {
@@ -19,13 +20,8 @@ public class SingleStepRotaryGrid implements Grid {
     }
 
     @Override
-    public int getWidth() {
-        return columns;
-    }
-
-    @Override
-    public int getHeight() {
-        return rows;
+    public Resolution getResolution() {
+        return new Resolution(rows, columns);
     }
     
     @Override

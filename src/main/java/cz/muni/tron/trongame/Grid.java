@@ -2,18 +2,14 @@ package cz.muni.tron.trongame;
 
 import cz.muni.tron.Position;
 import cz.muni.tron.controls.Direction;
+import cz.muni.tron.engine.Resolution;
 
 public interface Grid {
-
+    
     /**
-     * @return Width of grid
+     * @return Resolution of the grid
      */
-    public int getWidth();
-
-    /**
-     * @return Height of grid
-     */
-    public int getHeight();
+    public Resolution getResolution();
 
     /**
      * Makes move from position in given direction

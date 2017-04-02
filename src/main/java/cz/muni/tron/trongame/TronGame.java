@@ -42,7 +42,7 @@ public class TronGame implements Game {
 
     @Override
     public GameFrame getCurrentFrame() {
-        PositionsListFrame frame = new PositionsListFrame(grid.getWidth(), grid.getHeight());
+        PositionsListFrame frame = new PositionsListFrame(grid.getResolution());
         for (Player player : players) {
             frame.addList(player.getPath(), player.getColor());
             frame.addPosition(player.getPosition(), player.getColor().darker());

@@ -9,6 +9,7 @@ import cz.muni.tron.output.ScreenOutput;
 import cz.muni.tron.controls.KeyArrowsTurnController;
 import cz.muni.tron.controls.MouseButtonsTurnController;
 import cz.muni.tron.engine.GameEngine;
+import cz.muni.tron.output.BufferedScreenControl;
 import cz.muni.tron.output.EagerScreenControl;
 import cz.muni.tron.renderer.FitScreenGameRenderer;
 import java.awt.Color;
@@ -22,11 +23,11 @@ public class Main {
         game.addPlayer(player1);
         game.addController(new KeyArrowsTurnController(player1, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT));
         game.addController(new MouseButtonsTurnController(player1));
-        game.addController(new AiRandomTurnControler(player1, .1));
+        game.addController(new AiRandomTurnControler(player1, .02));
         new GameEngine(
                 game,
                 new FitScreenGameRenderer(),
-                new ScreenOutput(new EagerScreenControl())
+                new ScreenOutput(new BufferedScreenControl())
         ).run();
     }
 

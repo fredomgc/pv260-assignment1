@@ -8,28 +8,22 @@ import java.util.List;
 
 public class PositionsListFrame implements GameFrame {
 
+    private final Resolution resolution;
     private final Color[][] frame;
 
-    public PositionsListFrame(int width, int height, Color defaultColor) {
-        this.frame = new Color[height][width];
+    public PositionsListFrame(Resolution resolution, Color defaultColor) {
+        this.resolution = resolution;
+        this.frame = new Color[resolution.getHeight()][resolution.getWidth()];
         fillFrame(defaultColor);
     }
     
-    public PositionsListFrame(int width, int height) {
-        this(width, height, Color.BLACK);
+    public PositionsListFrame(Resolution resolution) {
+        this(resolution, Color.BLACK);
     }
 
     @Override
     public Resolution getResolution() {
-        return new Resolution(getWidth(), getHeight());
-    }
-
-    private int getWidth() {
-        return frame[0].length;
-    }
-
-    private int getHeight() {
-        return frame.length;
+        return resolution;
     }
 
     @Override
@@ -65,8 +59,8 @@ public class PositionsListFrame implements GameFrame {
     }
     
     private void fillFrame(Color color) {
-        for (int row = 0; row < getHeight(); row++) {
-            for (int column = 0; column < getWidth(); column++) {
+        for (int row = 0; row < resolution.getHeight(); row++) {
+            for (int column = 0; column < resolution.getWidth(); column++) {
                 addPosition(new Position(row, column), color);
             }
         }
