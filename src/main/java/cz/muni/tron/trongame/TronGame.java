@@ -15,13 +15,15 @@ public class TronGame implements Game {
 
     private final List<Player> players = new ArrayList<>();
     private final Grid grid;
-    private final CollisionDetector collisionDetector = new CollisionDetector();
-    private Collision collisition;
+    private final GameType gameType;
+    private final CollisionDetector collisionDetector;
     private final EventController eventController = new EventController();
     private final FrameGenerator frameGenerator = new FrameGenerator();
 
-    public TronGame(Grid grid) {
+    public TronGame(Grid grid, GameType gameType, CollisionDetector collisionDetector) {
         this.grid = grid;
+        this.gameType = gameType;
+        this.collisionDetector = collisionDetector;
     }
 
     public void addPlayer(Player player) {
@@ -30,6 +32,11 @@ public class TronGame implements Game {
     
     public void addController(EventSubscriber controller) {
         eventController.addSubscriber(controller);
+    }
+    
+    @Override
+    public void initialize(EventNotifier eventNotifier) {
+        eventController.hookEvents(eventNotifier);
     }
 
     @Override
@@ -53,71 +60,32 @@ public class TronGame implements Game {
 
     @Override
     public boolean isEndGame() {
-        return isCollision() || players.isEmpty();
+        return gameType.isEndGame(players);
     }
 
     @Override
     public String getResult() {
-        if (isCollision()) {
-            return collisition.toString();
-        }
-        if (players.isEmpty()) {
-            return "No players";
-        }
-        return "Game was not ended";
-    }
-
-    private boolean isCollision() {
-        return collisition != null;
+        return gameType.getResult(players);
     }
 
     private void movePlayers() {
         for (Player player : players) {
-            try {
-                player.move(grid);
-            } catch (CollisionException ex) {
-                collisition = new Collision(player, ex.getPosition());
-                return;
-            }
+            movePlayer(player);
+        }
+    }
+    
+    private void movePlayer(Player player) {
+        try {
+            player.move(grid);
+        } catch (CollisionException ex) {
+            gameType.collisionOccured(new Collision(player, ex.getPosition()), players);
         }
     }
     
     private void detectCollision() {
-        if (collisition == null) {
-            collisition = collisionDetector.detectCollision(players);
-        }
-    }
-
-    @Override
-    public void initialize(EventNotifier eventNotifier) {
-        eventController.hookEvents(eventNotifier);
-    }
-    
-    private class CollisionDetector {
-        
-        public Collision detectCollision(List<Player> players) {
-            for (Player potentialCollider : players) {
-                for (Player potentialCollidee : players) {
-                    Collision collision = detectPlayersCollision(potentialCollider, potentialCollidee);
-                    if (collision != null) {
-                        return collision;
-                    }
-                }
-            }
-            return null;
-        }
-        
-        private Collision detectPlayersCollision(Player potentialCollider, Player potentialCollidee) {
-            int collisionIndex = potentialCollidee.getPath().indexOf(potentialCollider.getPosition());
-            if (isCollision(potentialCollider, potentialCollidee, collisionIndex)) {
-                return new Collision(potentialCollider, potentialCollidee, potentialCollider.getPosition());
-            }
-            return null;
-        }
-        
-        private boolean isCollision(Player collider, Player collidee, int collisionIndex) {
-            return collisionIndex != -1 &&
-                    (collider != collidee || collisionIndex != collider.getPath().size() - 1);
+        Collision collisition = collisionDetector.detectCollision(players);
+        if (collisition != null) {
+            gameType.collisionOccured(collisition, players);
         }
     }
     
