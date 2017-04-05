@@ -12,6 +12,7 @@ import cz.muni.tron.output.BufferedScreenControl;
 import cz.muni.tron.output.EagerScreenControl;
 import cz.muni.tron.renderer.FitScreenGameRenderer;
 import cz.muni.tron.trongame.ColliderLoosesGameType;
+import cz.muni.tron.trongame.LastOneStandingGameType;
 import cz.muni.tron.trongame.RotaryEmptyGrid;
 import cz.muni.tron.trongame.StandardCollisionDetector;
 import cz.muni.tron.trongame.WalledEmptyGrid;
@@ -26,7 +27,7 @@ public class Main {
         
         TronGame game = new TronGame(
                 new RotaryEmptyGrid(100, 100),
-                new ColliderLoosesGameType(),
+                new LastOneStandingGameType(),
                 new StandardCollisionDetector());
         Player player1 = new Player("Yellow", new Position(5, 5), Direction.RIGHT, Color.YELLOW);
         game.addPlayer(player1);
