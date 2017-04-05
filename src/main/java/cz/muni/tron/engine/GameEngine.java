@@ -11,35 +11,29 @@ import java.util.logging.Logger;
 
 public class GameEngine {
     
-    private final Game game;
-    private final GameRenderer renderer;
-    private final Output output;
+    private final GameRunner gameRunner;
     private final EventDispatcher eventDispatcher = new EventDispatcher();
     private boolean gameRunning = false;
     private boolean gameTerminated = false;
-    private int gameTicks = 0;
 
     public GameEngine(Game game, GameRenderer renderer, Output output) {
-        this.game = game;
-        this.renderer = renderer;
-        this.output = output;
+        gameRunner = new GameRunner(game, renderer, output);
     }
     
     public void run() {
         initialize();
         runTheGame();
-        printResult();
+        gameRunner.printResult();
         dispose();
     }
     
     private void initialize() {
-        output.initialize(eventDispatcher);
-        game.initialize(eventDispatcher);
+        gameRunner.initialize(eventDispatcher);
         hookGlobalEvents();
     }
     
     private void dispose() {
-        output.dispose();
+        gameRunner.dispose();
     }
     
     private void runTheGame() {
@@ -51,50 +45,26 @@ public class GameEngine {
     private void runTillTheEnd() {
         while (isGameRunning()) {
             tick();
-            gameTicks++;
         }
     }
     
     private boolean isGameRunning() {
-        return !game.isEndGame() && !gameTerminated;
+        return gameRunner.isGameRunning() && !gameTerminated;
     }
     
     private void tick() {
         if (gameRunning) {
-            doGameStep();
+            gameRunner.tick();
+            eventDispatcher.gameTick();
         }
         sleep();
     }
     
     private void sleep() {
         try {
-            Thread.sleep(game.getGameSpeed());
+            Thread.sleep(gameRunner.getGameSpeed());
         } catch (InterruptedException ex) {
             Logger.getLogger(GameEngine.class.getName()).log(Level.WARNING, null, ex);
-        }
-    }
-    
-    private void doGameStep() {
-        try {
-            game.tick();
-            renderCurrentScene();
-            eventDispatcher.gameTick();
-        } catch (Exception ex) {
-            throw new IllegalStateException("An error occured durring the game", ex);
-        }
-    }
-    
-    private void renderCurrentScene() {
-        renderer.render(game.getCurrentFrame(), output);
-        output.update();
-    }
-    
-    private void printResult() {
-        if (gameTerminated) {
-            System.out.println("The game was terminated after " + gameTicks + " ticks");
-        } else {
-            System.out.println("The game ended after " + gameTicks + " ticks with result:");
-            System.out.println(game.getResult());
         }
     }
     
@@ -127,6 +97,66 @@ public class GameEngine {
         @Override
         public void subscribe(EventNotifier notifier) {
             
+        }
+        
+    }
+    
+    private class GameRunner {
+        
+        private final Game game;
+        private final GameRenderer renderer;
+        private final Output output;
+        private int gameTicks = 0;
+
+        public GameRunner(Game game, GameRenderer renderer, Output output) {
+            this.game = game;
+            this.renderer = renderer;
+            this.output = output;
+        }
+        
+        public void initialize(EventDispatcher eventDispatcher) {
+            output.initialize(eventDispatcher);
+            game.initialize(eventDispatcher);
+        }
+        
+        public void dispose() {
+            output.dispose();
+        }
+        
+        public boolean isGameRunning() {
+            return !game.isEndGame();
+        }
+        
+        public int getGameSpeed() {
+            return game.getGameSpeed();
+        }
+        
+        public void tick() {
+            gameTicks++;
+            try {
+                doGameStep();
+            } catch (Exception ex) {
+                throw new IllegalStateException("An error occured durring the game", ex);
+            }
+        }
+        
+        public void printResult() {
+            if (gameTerminated) {
+                System.out.println("The game was terminated after " + gameTicks + " ticks");
+            } else {
+                System.out.println("The game ended after " + gameTicks + " ticks with result:");
+                System.out.println(game.getResult());
+            }
+        }
+        
+        private void doGameStep() {
+            game.tick();
+            renderCurrentScene();
+        }
+        
+        private void renderCurrentScene() {
+            renderer.render(game.getCurrentFrame(), output);
+            output.update();
         }
         
     }
