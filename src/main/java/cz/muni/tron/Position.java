@@ -1,9 +1,5 @@
 package cz.muni.tron;
 
-/**
- *
- * @author Doumr
- */
 public class Position {
     private final int row;
     private final int column;

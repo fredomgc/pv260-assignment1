@@ -28,11 +28,16 @@ public class Main {
                 new RotaryEmptyGrid(100, 100),
                 new ColliderLoosesGameType(),
                 new StandardCollisionDetector());
-        Player player1 = new Player(new Position(5, 5), Direction.RIGHT, Color.YELLOW);
+        Player player1 = new Player("Yellow", new Position(5, 5), Direction.RIGHT, Color.YELLOW);
         game.addPlayer(player1);
         game.addController(new KeyArrowsTurnController(player1, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT));
         game.addController(new MouseButtonsTurnController(player1));
-        //game.addController(new AiRandomTurnControler(player1, .02));
+        Player player2 = new Player("Red", new Position(10, 80), Direction.DOWN, Color.RED);
+        game.addPlayer(player2);
+        game.addController(new AiRandomTurnControler(player2, .02));
+        Player player3 = new Player("Blue", new Position(95, 80), Direction.LEFT, Color.BLUE);
+        game.addPlayer(player3);
+        game.addController(new AiRandomTurnControler(player3, .08));
         new GameEngine(
                 game,
                 new FitScreenGameRenderer(), //optionally, you can use FixedSizeGameRenderer

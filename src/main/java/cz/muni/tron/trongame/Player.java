@@ -10,14 +10,20 @@ import java.util.List;
 
 public class Player implements TurnListenerWithDirection {
 
+    private final String name;
     private final PlayerDirection playerDirection;
     private final Color color;
     private final List<Position> path = new ArrayList();
 
-    public Player(Position position, Direction currentDirection, Color color) {
+    public Player(String name, Position position, Direction currentDirection, Color color) {
+        this.name = name;
         this.playerDirection = new PlayerDirection(currentDirection, position);
         this.color = color;
         this.path.add(position);
+    }
+    
+    public Player(Position position, Direction currentDirection, Color color) {
+        this(color.toString(), position, currentDirection, color);
     }
 
     public Position getPosition() {
@@ -40,7 +46,7 @@ public class Player implements TurnListenerWithDirection {
 
     @Override
     public String toString() {
-        return color.toString();
+        return name;
     }
 
     @Override
