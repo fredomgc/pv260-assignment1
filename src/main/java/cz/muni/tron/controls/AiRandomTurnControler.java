@@ -1,6 +1,6 @@
 package cz.muni.tron.controls;
 
-import cz.muni.tron.events.EventNotifier;
+import cz.muni.tron.events.GameTickEvent;
 import cz.muni.tron.events.GameTickEventSubscriber;
 import java.util.Random;
 
@@ -18,15 +18,10 @@ public class AiRandomTurnControler implements GameTickEventSubscriber {
     }
     
     @Override
-    public void gameTick() {
+    public void gameTick(GameTickEvent event) {
         if (shouldTurn()) {
             doTurn();
         }
-    }
-
-    @Override
-    public void subscribe(EventNotifier notifier) {
-        notifier.subscribeGameTick(this);
     }
     
     private double cropVolatility(double volatility) {

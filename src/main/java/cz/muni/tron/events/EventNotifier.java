@@ -3,9 +3,6 @@ package cz.muni.tron.events;
 
 public interface EventNotifier {
     
-    public void subscribeKeyPressed(KeyPressedEventSubscriber subscriber);
+    public void subscribe(EventSubscriber subscriber);
     
-    public void subscribeMouseClicked(MouseClickedEventSubscriber subscriber);
-    
-    public void subscribeGameTick(GameTickEventSubscriber subscriber);
 }

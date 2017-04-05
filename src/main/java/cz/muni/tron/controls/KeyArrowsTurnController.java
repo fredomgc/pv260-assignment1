@@ -1,6 +1,5 @@
 package cz.muni.tron.controls;
 
-import cz.muni.tron.events.EventNotifier;
 import cz.muni.tron.events.KeyPressedEvent;
 import cz.muni.tron.events.KeyPressedEventSubscriber;
 
@@ -27,11 +26,6 @@ public class KeyArrowsTurnController implements KeyPressedEventSubscriber {
         keyDown.keyPresed(event);
         keyLeft.keyPresed(event);
         keyRight.keyPresed(event);
-    }
-
-    @Override
-    public void subscribe(EventNotifier notifier) {
-        notifier.subscribeKeyPressed(this);
     }
     
     private class DirectionTurnTransformer implements DirectionListener {

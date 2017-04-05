@@ -1,6 +1,5 @@
 package cz.muni.tron.controls;
 
-import cz.muni.tron.events.EventNotifier;
 import cz.muni.tron.events.MouseButton;
 import cz.muni.tron.events.MouseClickedEvent;
 import cz.muni.tron.events.MouseClickedEventSubscriber;
@@ -23,10 +22,4 @@ public class MouseClickTurnController implements MouseClickedEventSubscriber {
         }
     }
 
-    @Override
-    public void subscribe(EventNotifier notifier) {
-        notifier.subscribeMouseClicked(this);
-    }
-    
-    
 }

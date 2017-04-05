@@ -98,7 +98,7 @@ public class TronGame implements Game {
         }
         
         public void hookEvents(EventNotifier dispatcher) {
-            eventSubscribers.stream().forEach(subscriber -> subscriber.subscribe(dispatcher));
+            eventSubscribers.stream().forEach(subscriber -> dispatcher.subscribe(subscriber));
         }
     }
     

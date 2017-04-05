@@ -1,6 +1,5 @@
 package cz.muni.tron.controls;
 
-import cz.muni.tron.events.EventNotifier;
 import cz.muni.tron.events.KeyPressedEvent;
 import cz.muni.tron.events.KeyPressedEventSubscriber;
 
@@ -22,11 +21,6 @@ public class SingleKeyDirectionController implements KeyPressedEventSubscriber {
         if (event.getKeyCode() == key) {
             listener.directionUpdate(direction);
         }
-    }
-
-    @Override
-    public void subscribe(EventNotifier notifier) {
-        notifier.subscribeKeyPressed(this);
     }
     
 }

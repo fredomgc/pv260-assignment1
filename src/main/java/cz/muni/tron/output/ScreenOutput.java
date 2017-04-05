@@ -83,7 +83,7 @@ public class ScreenOutput implements Output {
 
         @Override
         public void keyPressed(KeyEvent e) {
-            eventListener.keyPressed(new KeyPressedEventImpl(e.getKeyCode()));
+            eventListener.eventOccured(new KeyPressedEventImpl(e.getKeyCode()));
         }
 
         @Override
@@ -105,7 +105,7 @@ public class ScreenOutput implements Output {
         public void mouseClicked(MouseEvent e) {
             MouseButton button = translateMouseButton(e);
             if (button != null) {
-                eventListener.mouseClicked(new MouseClickedEventImpl(button));
+                eventListener.eventOccured(new MouseClickedEventImpl(button));
             }
         }
 

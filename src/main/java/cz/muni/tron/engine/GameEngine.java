@@ -1,7 +1,7 @@
 package cz.muni.tron.engine;
 
 import cz.muni.tron.events.EventDispatcher;
-import cz.muni.tron.events.EventNotifier;
+import cz.muni.tron.events.GameTickEventImpl;
 import cz.muni.tron.events.KeyPressedEvent;
 import cz.muni.tron.events.KeyPressedEventSubscriber;
 import java.awt.event.KeyEvent;
@@ -55,7 +55,7 @@ public class GameEngine {
     private void tick() {
         if (gameRunning) {
             gameRunner.tick();
-            eventDispatcher.gameTick();
+            eventDispatcher.eventOccured(new GameTickEventImpl());
         }
         sleep();
     }
@@ -77,7 +77,7 @@ public class GameEngine {
     }
     
     private void hookGlobalEvents() {
-        eventDispatcher.subscribeKeyPressed(new GlobalKeyPressedSubscriber());
+        eventDispatcher.subscribe(new GlobalKeyPressedSubscriber());
     }
     
     private class GlobalKeyPressedSubscriber implements KeyPressedEventSubscriber {
@@ -92,11 +92,6 @@ public class GameEngine {
                     terminateGame();
                     break;
             }
-        }
-
-        @Override
-        public void subscribe(EventNotifier notifier) {
-            
         }
         
     }

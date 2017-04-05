@@ -1,6 +1,6 @@
 package cz.muni.tron.events;
 
-public interface MouseClickedEvent {
+public interface MouseClickedEvent extends Event {
 
     /**
      * Returns which button was clicked
